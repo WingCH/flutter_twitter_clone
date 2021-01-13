@@ -134,7 +134,7 @@ class ComposeTweetState extends ChangeNotifier {
     RegExp regExp = new RegExp(usernameRegex);
     var status = regExp.hasMatch(description);
     /// Check if username is availeble in description or not
-    if (status) {
+    // if (status) {
       /// Get FCM server key from firebase remote config
       getFCMServerKey().then((val) async {
         if(serverToken == null){
@@ -160,7 +160,7 @@ class ComposeTweetState extends ChangeNotifier {
           }
         });
       });
-    }
+    // }
   }
 
   /// Send notificatinn by using firebase notification rest api;

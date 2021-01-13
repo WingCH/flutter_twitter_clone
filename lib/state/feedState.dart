@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/firebase_database.dart' as dabase;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_twitter_clone/helper/enum.dart';
-import 'package:flutter_twitter_clone/model/feedModel.dart';
 import 'package:flutter_twitter_clone/helper/utility.dart';
+import 'package:flutter_twitter_clone/model/feedModel.dart';
 import 'package:flutter_twitter_clone/model/user.dart';
 import 'package:flutter_twitter_clone/state/appState.dart';
 import 'package:path/path.dart' as Path;
@@ -18,7 +19,9 @@ class FeedState extends AppState {
   bool isBusy = false;
   Map<String, List<FeedModel>> tweetReplyMap = {};
   FeedModel _tweetToReplyModel;
+
   FeedModel get tweetToReplyModel => _tweetToReplyModel;
+
   set setTweetToReply(FeedModel model) {
     _tweetToReplyModel = model;
   }
@@ -29,6 +32,7 @@ class FeedState extends AppState {
   dabase.Query _feedQuery;
   List<FeedModel> _tweetDetailModelList;
   List<String> _userfollowingList;
+
   List<String> get followingList => _userfollowingList;
 
   List<FeedModel> get tweetDetailModel => _tweetDetailModelList;
@@ -133,14 +137,17 @@ class FeedState extends AppState {
       if (_feedQuery == null) {
         _feedQuery = kDatabase.child("tweet");
         _tweetCollection.snapshots().listen((QuerySnapshot snapshot) {
-          if (snapshot.documentChanges.first.type == DocumentChangeType.added) {
-            _onTweetAdded(snapshot.documentChanges.first.document);
-          } else if (snapshot.documentChanges.first.type ==
-              DocumentChangeType.removed) {
-            _onTweetRemoved(snapshot.documentChanges.first.document);
-          } else if (snapshot.documentChanges.first.type ==
-              DocumentChangeType.modified) {
-            _onTweetChanged(snapshot.documentChanges.first.document);
+          if (snapshot.documentChanges.isNotEmpty) {
+            if (snapshot.documentChanges.first.type ==
+                DocumentChangeType.added) {
+              _onTweetAdded(snapshot.documentChanges.first.document);
+            } else if (snapshot.documentChanges.first.type ==
+                DocumentChangeType.removed) {
+              _onTweetRemoved(snapshot.documentChanges.first.document);
+            } else if (snapshot.documentChanges.first.type ==
+                DocumentChangeType.modified) {
+              _onTweetChanged(snapshot.documentChanges.first.document);
+            }
           }
         });
       }
