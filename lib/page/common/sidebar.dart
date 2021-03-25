@@ -204,7 +204,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
   void _logOut() {
     final state = Provider.of<AuthState>(context,listen: false);
     final notificationDtate = Provider.of<NotificationState>(context,listen: false);
-    notificationDtate.unsubscribeNotifications(state.userModel.userId);
+    notificationDtate.unsubscribeNotifications(state.userModel?.userId);
     Navigator.pop(context);
     state.logoutCallback();
   }
@@ -234,7 +234,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
                     _navigateTo('ProfilePage');
                   }),
                   _menuListRowButton('Lists', icon: AppIcon.lists),
-                  _menuListRowButton('Bookamrks', icon: AppIcon.bookmark),
+                  _menuListRowButton('Bookmark', icon: AppIcon.bookmark),
                   _menuListRowButton('Moments', icon: AppIcon.moments),
                   _menuListRowButton('Fwitter ads', icon: AppIcon.twitterAds),
                   Divider(),
